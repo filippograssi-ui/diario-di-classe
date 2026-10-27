@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Diario 5ªA</title>
 <meta name="description" content="Verifiche, interrogazioni, scambi e appunti della classe.">
-<meta name="theme-color" content="#2346C9">
+<meta name="theme-color" content="#0B7A72">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -25,21 +25,21 @@ img{max-width:100%}
 <style>
 /* Layout: barra filtri in alto, mese a quadretti (o elenco) al centro, schede a scorrimento dal basso per dettagli e moduli. */
 :root{
-  --bg:#F3F5FA; --surface:#FFFFFF; --ink:#18213A; --muted:#58627E; --line:#DCE2EE; --grid:#E6EBF5;
-  --blue:#2346C9; --blue-soft:#E4EAFF; --red:#C3302E; --red-soft:#FDE6E4;
-  --hl:#FFE066; --hl-ink:#2A2200; --ok:#1E7A4C; --ok-soft:#DFF3E8; --shadow:0 10px 40px rgba(20,30,60,.18);
+  --bg:#F2F5F3; --surface:#FFFFFF; --ink:#13302A; --muted:#566B65; --line:#D5E0DC; --grid:#E3EBE8;
+  --blue:#0B7A72; --blue-soft:#D3F0EC; --red:#BE1A68; --red-soft:#FBE0EC;
+  --hl:#FFE14D; --hl-ink:#2A2200; --ok:#2E7A36; --ok-soft:#DEF1DF; --shadow:0 10px 40px rgba(10,40,34,.18);
   --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
   --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
   --f-data:"JetBrains Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0F131D; --surface:#171C29; --ink:#E6EAF4; --muted:#9AA4BE; --line:#2A3247; --grid:#1C2232;
-  --blue:#8AA4FF; --blue-soft:#1E2850; --red:#FF8078; --red-soft:#3B1C1E;
-  --hl:#E6BE2E; --hl-ink:#1D1700; --ok:#5DD39A; --ok-soft:#14301F; --shadow:0 10px 40px rgba(0,0,0,.5); color-scheme:dark }}
+  --bg:#0C1614; --surface:#13211E; --ink:#E1EEEA; --muted:#8FA7A0; --line:#243833; --grid:#182825;
+  --blue:#4CD3C4; --blue-soft:#10332F; --red:#FF78B4; --red-soft:#3A1528;
+  --hl:#EBCB3A; --hl-ink:#1D1700; --ok:#72CF86; --ok-soft:#15301C; --shadow:0 10px 40px rgba(0,0,0,.5); color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#0F131D; --surface:#171C29; --ink:#E6EAF4; --muted:#9AA4BE; --line:#2A3247; --grid:#1C2232;
-  --blue:#8AA4FF; --blue-soft:#1E2850; --red:#FF8078; --red-soft:#3B1C1E;
-  --hl:#E6BE2E; --hl-ink:#1D1700; --ok:#5DD39A; --ok-soft:#14301F; --shadow:0 10px 40px rgba(0,0,0,.5); color-scheme:dark }
+  --bg:#0C1614; --surface:#13211E; --ink:#E1EEEA; --muted:#8FA7A0; --line:#243833; --grid:#182825;
+  --blue:#4CD3C4; --blue-soft:#10332F; --red:#FF78B4; --red-soft:#3A1528;
+  --hl:#EBCB3A; --hl-ink:#1D1700; --ok:#72CF86; --ok-soft:#15301C; --shadow:0 10px 40px rgba(0,0,0,.5); color-scheme:dark }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 60px}
@@ -147,7 +147,7 @@ mark{background:var(--hl);color:var(--hl-ink);border-radius:3px;padding:0 2px}
 .empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:28px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center}
 
 /* scheda */
-.overlay{position:fixed;inset:0;background:rgba(10,14,25,.45);display:flex;justify-content:center;align-items:flex-end;z-index:50;padding-top:env(safe-area-inset-top,0px)}
+.overlay{position:fixed;inset:0;background:rgba(6,22,19,.5);display:flex;justify-content:center;align-items:flex-end;z-index:50;padding-top:env(safe-area-inset-top,0px)}
 @media (min-width:720px){.overlay{align-items:center}}
 .sheet{background:var(--surface);width:min(640px,100%);max-height:92%;overflow:auto;border-radius:16px 16px 0 0;box-shadow:var(--shadow);
   padding:20px max(18px,env(safe-area-inset-left,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:16px}
