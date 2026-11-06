@@ -433,7 +433,8 @@ function evCard(e){
   const n = notesFor(e).length; const t = turnoOf(e);
   return h("button",{type:"button",class:"ev"+(isI(e)?"":" v"),onclick:()=>openEvent(e.id)},
     h("div",{class:"ev-top"},h("span",{class:"pill "+(isI(e)?"i":"v")},isI(e)?"Interrogazione":"Verifica"),h("span",{class:"subj"},e.materia||""),
-      t ? h("span",{class:"muted",style:"font-size:13px"},t.titolo) : null),
+      t ? h("span",{class:"muted",style:"font-size:13px"},t.titolo) : null,
+      e.fonte==="registro" ? h("span",{class:"muted",style:"font-size:12px;margin-left:auto"},"📘 dal registro") : null),
     argOf(e) ? h("div",{class:"arg"},argOf(e)) : h("div",{class:"arg"},"Argomenti da inserire"),
     isI(e) ? h("div",{class:"who"},(e.studenti||[]).length ? namesNodes(e.studenti) : h("span",{class:"muted"},"Nessun nome ancora")) : h("div",{class:"who muted"},"Tutta la classe"),
     h("div",{class:"meta"},h("span",null,n ? n+(n===1?" appunto":" appunti") : "Nessun appunto")));
@@ -494,7 +495,7 @@ function openEvent(id){
     const canSwap = writable() && S.me && e.data>=todayIso();
     const days = t ? daysOf(t) : [];
     return h("div",{class:"form"},
-      head((isI(e)?"Interrogazione di ":"Verifica di ")+(e.materia||""), fmtDay(e.data) + (t ? " · " + t.titolo : "")),
+      head((isI(e)?"Interrogazione di ":"Verifica di ")+(e.materia||""), fmtDay(e.data) + (t ? " · " + t.titolo : "") + (e.fonte==="registro" ? " · 📘 dal registro"+(e.docente?" ("+e.docente+")":"") : "")),
       h("div",{class:"section",style:"border-top:0;padding-top:0"},
         h("div",{style:"display:flex;justify-content:space-between;align-items:center;gap:8px"},
           h("span",{class:"label"},t ? "Argomenti del turno (uguali per tutti i giorni)" : "Argomenti"),
@@ -590,7 +591,7 @@ function openEventForm(id, day){
       data.turnoId=turnoId;
       if(turnoId) data.argomenti="";
       let ok;
-      if(e) ok=await guard(()=>S.db.doc("eventi/"+e.id).update(data));
+      if(e) ok=await guard(()=>S.db.doc("eventi/"+e.id).update(e.fonte==="registro"?{...data,modificato:true}:data));
       else { data.creato=Date.now(); data.creatoDa=S.me||""; ok=await guard(()=>S.db.collection("eventi").add(data)); }
       if(ok){ closeSheet(); toast(e?"Modifiche salvate":"Aggiunto al calendario"); S.cursor=parseIso(data.data); render(); }
     }},
