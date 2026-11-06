@@ -1,0 +1,38 @@
+name: Aggiorna dal registro
+
+on:
+  schedule:
+    # ogni 2 ore, circa dalle 7 alle 23 (ora italiana)
+    - cron: "17 5-21/2 * * *"
+  workflow_dispatch: {}   # pulsante "Run workflow" per aggiornare subito
+
+permissions:
+  contents: write
+
+concurrency: registro
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Leggi ClasseViva e aggiorna il Diario
+        env:
+          CVV_USER: ${{ secrets.CVV_USER }}
+          CVV_PASS: ${{ secrets.CVV_PASS }}
+        run: node sync/registro.mjs
+      - name: Tieni attivo l'automatismo
+        # GitHub spegne le pianificazioni dopo 60 giorni senza modifiche: una volta al mese salva una riga
+        run: |
+          f=sync/ultimo-giro.txt
+          mese=$(date -u +%Y-%m)
+          if [ ! -f "$f" ] || ! grep -q "^$mese" "$f"; then
+            date -u +%Y-%m-%dT%H:%MZ > "$f"
+            git config user.name "diario-bot"
+            git config user.email "diario-bot@users.noreply.github.com"
+            git add "$f" && git commit -qm "Automatismo registro attivo" && git push -q || true
+          fi
