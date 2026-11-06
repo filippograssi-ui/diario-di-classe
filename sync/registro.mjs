@@ -49,8 +49,12 @@ async function cvv() {
     method: "POST", headers: CVV_HEADERS,
     body: JSON.stringify({ ident: null, pass: CVV_PASS, uid: CVV_USER })
   });
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok || !j.token) throw new Error("Accesso a ClasseViva non riuscito (" + r.status + "): " + (j.error || j.message || "controlla utente e password nei Secrets"));
+  const testo = await r.text();
+  let j = {}; try { j = JSON.parse(testo); } catch {}
+  if (!r.ok || !j.token) {
+    const dettaglio = j.error || j.message || j.info || testo.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 300);
+    throw new Error("Accesso a ClasseViva non riuscito (" + r.status + "). Risposta di Spaggiari: " + (dettaglio || "(vuota)"));
+  }
   const id = String(j.ident).replace(/\D/g, "");
   const oggi = new Date(); oggi.setUTCHours(0, 0, 0, 0);
   const fine = new Date(oggi); fine.setUTCDate(fine.getUTCDate() + 120);
